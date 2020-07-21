@@ -2,6 +2,12 @@
   "name": "dosfarma/testing",
   "description": "Tools for testing integration",
   "type": "project",
+  "authors": [
+    {
+      "name": "Sergio Hernández Martínez",
+      "email": "sergio.hernandez@dosfarma.com"
+    }
+  ],
   "license": "MIT",
   "require": {
     "php": "^7.4",
