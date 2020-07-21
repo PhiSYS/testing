@@ -1,7 +1,7 @@
 {
   "name": "dosfarma/testing",
   "description": "Tools for testing integration",
-  "type": "project",
+  "type": "library",
   "authors": [
     {
       "name": "Sergio Hernández Martínez",
