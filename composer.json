@@ -1,0 +1,15 @@
+{
+  "name": "dosfarma/testing",
+  "description": "Tools for testing integration",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^7.4",
+    "guzzlehttp/guzzle": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "DosFarma\\Testing\\": "src/"
+    }
+  }
+}
