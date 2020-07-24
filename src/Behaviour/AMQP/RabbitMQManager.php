@@ -29,18 +29,23 @@ final class RabbitMQManager implements AmqpManager
         $channel->basic_consume(
             $queue,
             '',
-            true,
+            false,
             false,
             false,
             false,
             static function (AMQPMessage $message) use (&$messages)
             {
+                $channel = $message->delivery_info['channel'];
+                $deliveryTag = $message->delivery_info['delivery_tag'];
+
                 \array_push(
                     $messages,
                     \json_decode(
                         $message->body,
                         true)
                 );
+
+                $channel->basic_ack($deliveryTag);
             }
         );
 
