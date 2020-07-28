@@ -5,7 +5,7 @@ namespace DosFarma\Testing\Behaviour\AMQP;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-class AmqpConnectionBuilder
+class AmqpConnectionFactory
 {
     public static function fromDsn(string $dsn): AMQPStreamConnection
     {
