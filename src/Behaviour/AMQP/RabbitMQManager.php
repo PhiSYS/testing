@@ -11,9 +11,9 @@ final class RabbitMQManager implements AmqpManager
 {
     private AMQPStreamConnection $connection;
 
-    public function __construct(Connection $connection, string $dsn)
+    public function __construct(AMQPStreamConnection $connection)
     {
-        $this->connection = $connection::fromDsn($dsn);
+        $this->connection = $connection;
     }
 
     public function consume(string $queue, string $exchange): array
@@ -59,4 +59,3 @@ final class RabbitMQManager implements AmqpManager
         return $messages;
     }
 }
-
