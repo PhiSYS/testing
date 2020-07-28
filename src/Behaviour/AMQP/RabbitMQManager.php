@@ -11,14 +11,9 @@ final class RabbitMQManager implements AmqpManager
 {
     private AMQPStreamConnection $connection;
 
-    public function __construct(
-        string $host,
-        int $port,
-        string $user,
-        string $pass
-    )
+    public function __construct(Connection $connection, string $dsn)
     {
-        $this->connection = new AMQPStreamConnection($host, $port, $user, $pass);
+        $this->connection = $connection::fromDsn($dsn);
     }
 
     public function consume(string $queue, string $exchange): array
