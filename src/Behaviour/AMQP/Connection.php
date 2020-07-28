@@ -36,7 +36,7 @@ class Connection
 
     private static function assertValidAmqpDsn($parsedUrl, string $dsn): void
     {
-        if ($parsedUrl !== 'amqp') {
+        if ($parsedUrl['scheme'] !== 'amqp') {
             throw new \InvalidArgumentException(
                 \sprintf(
                     'The given AMQP DSN "%s" is invalid.',
