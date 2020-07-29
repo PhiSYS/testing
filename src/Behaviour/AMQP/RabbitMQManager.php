@@ -16,7 +16,7 @@ final class RabbitMQManager implements AmqpManager
         $this->connection = $connection;
     }
 
-    public function consume(string $queue, string $exchange): array
+    public function consume(string $queue): array
     {
         $channel = $this->connection->channel();
         $messages = [];
@@ -57,5 +57,16 @@ final class RabbitMQManager implements AmqpManager
         $this->connection->close();
 
         return $messages;
+    }
+
+    public function purge(string $queue): void
+    {
+        $channel = $this->connection->channel();
+
+        $channel->queue_purge(
+            $queue,
+            false,
+            null
+        );
     }
 }
