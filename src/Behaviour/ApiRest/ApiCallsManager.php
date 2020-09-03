@@ -9,6 +9,8 @@ interface ApiCallsManager
 {
     public function post(string $uriPath, array $body, array $uriVariables = []): void;
 
+    public function put(string $uriPath, array $body, array $uriVariables = []): void;
+
     public function delete(string $uriPath, array $uriVariables = []): void;
 
     /**

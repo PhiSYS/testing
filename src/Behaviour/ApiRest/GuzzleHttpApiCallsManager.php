@@ -47,6 +47,20 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         }
     }
 
+    public function put(string $uriPath, array $body, array $uriVariables = []): void
+    {
+        try {
+            $this->responses[] = $this->client->put(
+                $this->buildUri($uriPath, $uriVariables),
+                [
+                    RequestOptions::JSON => $body,
+                ],
+            );
+        } catch (BadResponseException $e) {
+            $this->responses[] = $e->getResponse();
+        }
+    }
+
     public function delete(string $uriPath, array $uriVariables = []): void
     {
         try {
