@@ -12,11 +12,22 @@ interface ApiCallsManager
      */
     public function responses(): array;
 
+    public function response(string $key): ?ResponseInterface;
+
     public function clearResponses(): void;
 
-    public function post(string $uriPath, array $body, array $uriVariables = []): void;
+    /**
+     * @return string Response access key
+     */
+    public function post(string $uriPath, array $body, array $uriVariables = []): string;
 
-    public function put(string $uriPath, array $body, array $uriVariables = []): void;
+    /**
+     * @return string Response access key
+     */
+    public function put(string $uriPath, array $body, array $uriVariables = []): string;
 
-    public function delete(string $uriPath, array $uriVariables = []): void;
+    /**
+     * @return string Response access key
+     */
+    public function delete(string $uriPath, array $uriVariables = []): string;
 }

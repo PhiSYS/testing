@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
+use Ramsey\Uuid\Uuid;
 use function GuzzleHttp\uri_template;
 
 final class GuzzleHttpApiCallsManager implements ApiCallsManager
@@ -26,11 +27,20 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
     }
 
     /**
-     * @return ResponseInterface[]
+     * @inheritDoc
      */
     public function responses(): array
     {
         return $this->responses;
+    }
+
+    public function response(string $key): ?ResponseInterface
+    {
+        if (false === \array_key_exists($key, $this->responses)) {
+            return null;
+        }
+
+        return $this->responses[$key];
     }
 
     public function clearResponses(): void
@@ -38,43 +48,58 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         $this->responses = [];
     }
 
-    public function post(string $uriPath, array $body, array $uriVariables = []): void
+    /**
+     * @inheritDoc
+     */
+    public function post(string $uriPath, array $body, array $uriVariables = []): string
     {
         try {
-            $this->responses[] = $this->client->post(
-                $this->buildUri($uriPath, $uriVariables),
-                [
-                    RequestOptions::JSON => $body,
-                ],
+            return $this->storeResponseUnderAccessKey(
+                $this->client->post(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [
+                        RequestOptions::JSON => $body,
+                    ],
+                ),
             );
         } catch (BadResponseException $e) {
-            $this->responses[] = $e->getResponse();
+            return $this->storeResponseUnderAccessKey($e->getResponse());
         }
     }
 
-    public function put(string $uriPath, array $body, array $uriVariables = []): void
+    /**
+     * @inheritDoc
+     */
+    public function put(string $uriPath, array $body, array $uriVariables = []): string
     {
         try {
-            $this->responses[] = $this->client->put(
-                $this->buildUri($uriPath, $uriVariables),
-                [
-                    RequestOptions::JSON => $body,
-                ],
+            return $this->storeResponseUnderAccessKey(
+                $this->client->put(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [
+                        RequestOptions::JSON => $body,
+                    ],
+                ),
             );
         } catch (BadResponseException $e) {
-            $this->responses[] = $e->getResponse();
+            return $this->storeResponseUnderAccessKey($e->getResponse());
         }
     }
 
-    public function delete(string $uriPath, array $uriVariables = []): void
+    /**
+     * @inheritDoc
+     */
+    public function delete(string $uriPath, array $uriVariables = []): string
     {
         try {
-            $this->responses[] = $this->client->delete(
-                $this->buildUri($uriPath, $uriVariables),
-                [],
+            return $this->storeResponseUnderAccessKey(
+                $this->client->delete(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [],
+                ),
             );
         } catch (BadResponseException $e) {
-            $this->responses[] = $e->getResponse();
+            return $this->storeResponseUnderAccessKey($e->getResponse());
         }
     }
 
@@ -84,5 +109,13 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         $uri = uri_template($uri, $uriVariables);
 
         return $uri;
+    }
+
+    private function storeResponseUnderAccessKey(ResponseInterface $response): string
+    {
+        $key = (string) Uuid::uuid4();
+        $this->responses[$key] = $response;
+
+        return $key;
     }
 }
