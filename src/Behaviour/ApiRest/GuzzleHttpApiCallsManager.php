@@ -18,12 +18,14 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
      */
     private array $responses;
     private string $host;
+    private int $accessKey;
 
     public function __construct(Client $client, string $host)
     {
         $this->client = $client;
         $this->host = $host;
         $this->responses = [];
+        $this->accessKey = 0;
     }
 
     /**
@@ -43,15 +45,10 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         return $this->responses[$key];
     }
 
-    public function clearResponses(): void
-    {
-        $this->responses = [];
-    }
-
     /**
      * @inheritDoc
      */
-    public function post(string $uriPath, array $body, array $uriVariables = []): string
+    public function post(string $uriPath, array $body, array $uriVariables = []): int
     {
         try {
             return $this->storeResponseUnderAccessKey(
@@ -70,7 +67,7 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
     /**
      * @inheritDoc
      */
-    public function put(string $uriPath, array $body, array $uriVariables = []): string
+    public function put(string $uriPath, array $body, array $uriVariables = []): int
     {
         try {
             return $this->storeResponseUnderAccessKey(
@@ -89,7 +86,7 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
     /**
      * @inheritDoc
      */
-    public function delete(string $uriPath, array $uriVariables = []): string
+    public function delete(string $uriPath, array $uriVariables = []): int
     {
         try {
             return $this->storeResponseUnderAccessKey(
@@ -111,11 +108,11 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         return $uri;
     }
 
-    private function storeResponseUnderAccessKey(ResponseInterface $response): string
+    private function storeResponseUnderAccessKey(ResponseInterface $response): int
     {
-        $key = (string) Uuid::uuid4();
-        $this->responses[$key] = $response;
+        $this->accessKey++;
+        $this->responses[$this->accessKey] = $response;
 
-        return $key;
+        return $this->accessKey;
     }
 }
