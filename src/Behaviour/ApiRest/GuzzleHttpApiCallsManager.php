@@ -33,6 +33,11 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         return $this->responses;
     }
 
+    public function clearResponses(): void
+    {
+        $this->responses = [];
+    }
+
     public function post(string $uriPath, array $body, array $uriVariables = []): void
     {
         try {
