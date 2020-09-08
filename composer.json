@@ -10,6 +10,10 @@
     {
       "name": "Jose R. Flores",
       "email": "jr.flores@dosfarma.com"
+    },
+    {
+      "name": "David Strencsev",
+      "email": "david.strencsev@dosfarma.com"
     }
   ],
   "license": "MIT",
@@ -17,7 +21,8 @@
     "php": "^7.4",
     "guzzlehttp/guzzle": "^6.5",
     "ext-json": "^7.4",
-    "php-amqplib/php-amqplib": "^2.11"
+    "php-amqplib/php-amqplib": "^2.11",
+    "doctrine/dbal": "^2.10"
   },
   "autoload": {
     "psr-4": {

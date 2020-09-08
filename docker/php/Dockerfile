@@ -3,18 +3,21 @@ RUN apk add --no-cache \
         bash \
         libzip-dev \
         openssl-dev \
-        rabbitmq-c-dev && \
-    docker-php-ext-install -j$(nproc) \
-        zip && \
-    apk add --no-cache --virtual .phpize_deps $PHPIZE_DEPS && \
-    pecl install \
-        amqp-1.9.4 && \
-    docker-php-ext-enable \
-        amqp && \
-    rm -rf /usr/share/php7 && \
-    rm -rf /tmp/pear && \
-    apk del .phpize_deps && \
-    mkdir /var/app
+        rabbitmq-c-dev \
+        postgresql-dev \
+    && docker-php-ext-install -j$(nproc) \
+        zip \
+        pdo \
+        pdo_pgsql \
+    && apk add --no-cache --virtual .phpize_deps $PHPIZE_DEPS \
+    && pecl install \
+        amqp-1.9.4 \
+    && docker-php-ext-enable \
+        amqp \
+    && rm -rf /usr/share/php7 \
+    && rm -rf /tmp/pear \
+    && apk del .phpize_deps \
+    && mkdir /var/app
 
 RUN docker-php-ext-install sockets
 
