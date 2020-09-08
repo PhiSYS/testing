@@ -16,6 +16,24 @@ final class RabbitMQManager implements AmqpManager
         $this->connection = $connection;
     }
 
+    public function publish(Message $message, string $exchange, string $routingKey = ''): void
+    {
+        $channel = $this->connection->channel();
+
+        $channel->basic_publish(
+            new AMQPMessage(
+                $message->body(),
+                $message->properties(),
+            ),
+            $exchange,
+            $routingKey,
+        );
+
+        $channel->close();
+        //Todo cambiar esto al destroy del objeto
+        $this->connection->close();
+    }
+
     public function consume(string $queue): array
     {
         $channel = $this->connection->channel();
