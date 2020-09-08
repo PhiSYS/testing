@@ -30,8 +30,6 @@ final class RabbitMQManager implements AmqpManager
         );
 
         $channel->close();
-        //Todo cambiar esto al destroy del objeto
-        $this->connection->close();
     }
 
     public function consume(string $queue): array
@@ -72,7 +70,6 @@ final class RabbitMQManager implements AmqpManager
         }
 
         $channel->close();
-        $this->connection->close();
 
         return $messages;
     }
@@ -86,5 +83,10 @@ final class RabbitMQManager implements AmqpManager
             false,
             null
         );
+    }
+
+    public function __destruct()
+    {
+        $this->connection->close();
     }
 }
