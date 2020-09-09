@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace DosFarma\Testing\Behaviour\Database\Dbal;
 
 use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\ParameterType;
 use DosFarma\Testing\Behaviour\Database\DatabaseManager;
 
 final class PostgresDbalDatabaseManager implements DatabaseManager

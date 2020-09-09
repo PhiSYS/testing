@@ -24,7 +24,7 @@ trait DbalDatabaseManagerTrait
 
     public function find(string $statement, array $params): array
     {
-        return $this->execute($statement, $params);
+        return $this->executeAndFetch($statement, $params);
     }
 
     public function insert(string $statement, array $params): void
@@ -46,15 +46,17 @@ trait DbalDatabaseManagerTrait
         return $this->statements[$statement];
     }
 
-    private function execute(string $statement, array $params): ?array
+    private function executeAndFetch(string $statement, array $params): ?array
     {
         $preparedStatement = $this->prepareStatement($statement);
         $preparedStatement->execute($params);
 
-        if (0 === $preparedStatement->rowCount()) {
-            return null;
-        }
-
         return $preparedStatement->fetchAll(FetchMode::ASSOCIATIVE);
+    }
+
+    private function execute(string $statement, array $params): void
+    {
+        $preparedStatement = $this->prepareStatement($statement);
+        $preparedStatement->execute($params);
     }
 }
