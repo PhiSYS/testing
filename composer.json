@@ -17,8 +17,7 @@
     "php": "^7.4",
     "guzzlehttp/guzzle": "^6.5",
     "ext-json": "^7.4",
-    "php-amqplib/php-amqplib": "^2.11",
-    "ramsey/uuid": "^3.9"
+    "php-amqplib/php-amqplib": "^2.11"
   },
   "autoload": {
     "psr-4": {
