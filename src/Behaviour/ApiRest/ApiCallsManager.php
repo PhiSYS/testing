@@ -15,17 +15,17 @@ interface ApiCallsManager
     public function response(string $key): ?ResponseInterface;
 
     /**
-     * @return string Response access key
+     * @return int Response access key
      */
     public function post(string $uriPath, array $body, array $uriVariables = []): int;
 
     /**
-     * @return string Response access key
+     * @return int Response access key
      */
     public function put(string $uriPath, array $body, array $uriVariables = []): int;
 
     /**
-     * @return string Response access key
+     * @return int Response access key
      */
     public function delete(string $uriPath, array $uriVariables = []): int;
 }
