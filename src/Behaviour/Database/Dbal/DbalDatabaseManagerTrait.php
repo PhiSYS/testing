@@ -46,7 +46,7 @@ trait DbalDatabaseManagerTrait
         return $this->statements[$statement];
     }
 
-    private function executeAndFetch(string $statement, array $params): ?array
+    private function executeAndFetch(string $statement, array $params): array
     {
         $preparedStatement = $this->prepareStatement($statement);
         $preparedStatement->execute($params);
