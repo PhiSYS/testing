@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
+use Ramsey\Uuid\Uuid;
 use function GuzzleHttp\uri_template;
 
 final class GuzzleHttpApiCallsManager implements ApiCallsManager
@@ -17,64 +18,85 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
      */
     private array $responses;
     private string $host;
+    private int $accessKey;
 
     public function __construct(Client $client, string $host)
     {
         $this->client = $client;
         $this->host = $host;
         $this->responses = [];
+        $this->accessKey = 0;
     }
 
     /**
-     * @return ResponseInterface[]
+     * @inheritDoc
      */
     public function responses(): array
     {
         return $this->responses;
     }
 
-    public function clearResponses(): void
+    public function response(string $key): ?ResponseInterface
     {
-        $this->responses = [];
+        if (false === \array_key_exists($key, $this->responses)) {
+            return null;
+        }
+
+        return $this->responses[$key];
     }
 
-    public function post(string $uriPath, array $body, array $uriVariables = []): void
+    /**
+     * @inheritDoc
+     */
+    public function post(string $uriPath, array $body, array $uriVariables = []): int
     {
         try {
-            $this->responses[] = $this->client->post(
-                $this->buildUri($uriPath, $uriVariables),
-                [
-                    RequestOptions::JSON => $body,
-                ],
+            return $this->storeResponseUnderAccessKey(
+                $this->client->post(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [
+                        RequestOptions::JSON => $body,
+                    ],
+                ),
             );
         } catch (BadResponseException $e) {
-            $this->responses[] = $e->getResponse();
+            return $this->storeResponseUnderAccessKey($e->getResponse());
         }
     }
 
-    public function put(string $uriPath, array $body, array $uriVariables = []): void
+    /**
+     * @inheritDoc
+     */
+    public function put(string $uriPath, array $body, array $uriVariables = []): int
     {
         try {
-            $this->responses[] = $this->client->put(
-                $this->buildUri($uriPath, $uriVariables),
-                [
-                    RequestOptions::JSON => $body,
-                ],
+            return $this->storeResponseUnderAccessKey(
+                $this->client->put(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [
+                        RequestOptions::JSON => $body,
+                    ],
+                ),
             );
         } catch (BadResponseException $e) {
-            $this->responses[] = $e->getResponse();
+            return $this->storeResponseUnderAccessKey($e->getResponse());
         }
     }
 
-    public function delete(string $uriPath, array $uriVariables = []): void
+    /**
+     * @inheritDoc
+     */
+    public function delete(string $uriPath, array $uriVariables = []): int
     {
         try {
-            $this->responses[] = $this->client->delete(
-                $this->buildUri($uriPath, $uriVariables),
-                [],
+            return $this->storeResponseUnderAccessKey(
+                $this->client->delete(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [],
+                ),
             );
         } catch (BadResponseException $e) {
-            $this->responses[] = $e->getResponse();
+            return $this->storeResponseUnderAccessKey($e->getResponse());
         }
     }
 
@@ -84,5 +106,13 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         $uri = uri_template($uri, $uriVariables);
 
         return $uri;
+    }
+
+    private function storeResponseUnderAccessKey(ResponseInterface $response): int
+    {
+        $this->accessKey++;
+        $this->responses[$this->accessKey] = $response;
+
+        return $this->accessKey;
     }
 }
