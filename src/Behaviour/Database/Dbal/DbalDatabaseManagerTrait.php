@@ -49,7 +49,8 @@ trait DbalDatabaseManagerTrait
     private function executeAndFetch(string $statement, array $params): array
     {
         $preparedStatement = $this->prepareStatement($statement);
-        $preparedStatement->execute($params);
+        $preparedStatement = $this->bindParamsValues($preparedStatement, $params);
+        $preparedStatement->execute();
 
         return $preparedStatement->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -57,6 +58,29 @@ trait DbalDatabaseManagerTrait
     private function execute(string $statement, array $params): void
     {
         $preparedStatement = $this->prepareStatement($statement);
-        $preparedStatement->execute($params);
+        $preparedStatement = $this->bindParamsValues($preparedStatement, $params);
+        $preparedStatement->execute();
+    }
+
+    private function bindParamsValues(Statement $preparedStatement, array $params): Statement
+    {
+        foreach ($params as $key => $value) {
+            $this->bindValue($preparedStatement, $key, $value);
+        }
+
+        return $preparedStatement;
+    }
+
+    private function bindValue(Statement $preparedStatement, string $key, $value): Statement
+    {
+        if (true === \is_bool($value)) {
+            $preparedStatement->bindValue($key, $value, ParameterType::BOOLEAN);
+
+            return $preparedStatement;
+        }
+
+        $preparedStatement->bindValue($key, $value);
+
+        return $preparedStatement;
     }
 }
