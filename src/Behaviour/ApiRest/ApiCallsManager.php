@@ -12,7 +12,7 @@ interface ApiCallsManager
      */
     public function responses(): array;
 
-    public function response(string $key): ?ResponseInterface;
+    public function response(int $key): ?ResponseInterface;
 
     /**
      * @return int Response access key

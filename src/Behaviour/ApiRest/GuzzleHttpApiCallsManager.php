@@ -36,7 +36,7 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
         return $this->responses;
     }
 
-    public function response(string $key): ?ResponseInterface
+    public function response(int $key): ?ResponseInterface
     {
         if (false === \array_key_exists($key, $this->responses)) {
             return null;
