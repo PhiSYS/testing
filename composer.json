@@ -23,8 +23,9 @@
     "ext-json": "^7.4",
     "php-amqplib/php-amqplib": "^2.11",
     "doctrine/dbal": "^2.10",
-    "beberlei/assert": "^3.2",
-    "behat/behat": "^3.7"
+    "symfony/messenger": "^4.4",
+    "pccomponentes/ddd": "^2.0",
+    "beberlei/assert": "^3.2"
   },
   "autoload": {
     "psr-4": {
