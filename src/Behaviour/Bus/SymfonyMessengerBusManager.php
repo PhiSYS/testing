@@ -122,7 +122,7 @@ final class SymfonyMessengerBusManager implements BusManager
             ->verifyNow()
         ;
 
-        Assert::that($messageDatum['attributes'], 'attributes')
+        Assert::that($messageDatum['data']['attributes'], 'attributes')
             ->keyExists('aggregate_id', null, 'aggregate_id')
         ;
     }
