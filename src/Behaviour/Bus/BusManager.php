@@ -12,7 +12,11 @@ interface BusManager
 
     public function handleEvent(array $eventDatum): void;
 
+    public function deserializeEvent(array $eventDatum): AggregateMessage;
+
     public function publishCommand(SimpleMessage $command): void;
 
     public function handleCommand(array $commandDatum): void;
+
+    public function deserializeCommand(array $commandDatum): SimpleMessage;
 }

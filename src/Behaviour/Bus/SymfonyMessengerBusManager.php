@@ -52,6 +52,13 @@ final class SymfonyMessengerBusManager implements BusManager
         );
     }
 
+    public function deserializeEvent(array $eventDatum): AggregateMessage
+    {
+        return $this->aggregateMessageStreamDeserializer->unserialize(
+            $this->buildAggregateMessageSteam($eventDatum),
+        );
+    }
+
     public function publishCommand(SimpleMessage $command): void
     {
         $this->publishCommandBus->dispatch($command);
@@ -63,6 +70,13 @@ final class SymfonyMessengerBusManager implements BusManager
             $this->simpleMessageStreamDeserializer->unserialize(
                 $this->buildSimpleMessageSteam($commandDatum),
             ),
+        );
+    }
+
+    public function deserializeCommand(array $commandDatum): SimpleMessage
+    {
+        return $this->simpleMessageStreamDeserializer->unserialize(
+            $this->buildSimpleMessageSteam($commandDatum),
         );
     }
 
