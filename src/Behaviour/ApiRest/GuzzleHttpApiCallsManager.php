@@ -48,6 +48,25 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
     /**
      * @inheritDoc
      */
+    public function get(string $uriPath, array $uriVariables = [], array $queryVariables = []): int
+    {
+        try {
+            return $this->storeResponseUnderAccessKey(
+                $this->client->get(
+                    $this->buildUri($uriPath, $uriVariables),
+                    [
+                        RequestOptions::QUERY => $queryVariables,
+                    ],
+                ),
+            );
+        } catch (BadResponseException $e) {
+            return $this->storeResponseUnderAccessKey($e->getResponse());
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function post(string $uriPath, array $body, array $uriVariables = []): int
     {
         try {
