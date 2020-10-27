@@ -73,6 +73,12 @@ trait DbalDatabaseManagerTrait
 
     private function bindValue(Statement $preparedStatement, string $key, $value): Statement
     {
+        if (null === $value) {
+            $preparedStatement->bindValue($key, null, ParameterType::NULL);
+
+            return $preparedStatement;
+        }
+
         if (true === \is_bool($value)) {
             $preparedStatement->bindValue($key, $value, ParameterType::BOOLEAN);
 
