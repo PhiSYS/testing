@@ -11,9 +11,9 @@ trait PublishDomainEvent
     /** @Then Publish domain :eventType event in :eventsQueue queue: */
     public function publishDomainEvent(TableNode $table, string $eventType, string $eventsQueue)
     {
-        $events  = $this->amqpManager->consume($eventsQueue);
-
         $aggregateIds = $table->getColumn(0);
+        $events = $this->amqpManager->consume($eventsQueue);
+
         foreach ($events as $event) {
             Assertion::inArray($event['data']['attributes']['aggregate_id'], $aggregateIds);
             Assertion::same($event['data']['type'], $eventType);
