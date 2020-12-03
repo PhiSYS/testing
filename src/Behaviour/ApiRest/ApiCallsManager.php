@@ -17,6 +17,11 @@ interface ApiCallsManager
     /**
      * @return int Response access key
      */
+    public function get(string $uriPath, array $uriVariables = [], array $queryVariables = []): int;
+
+    /**
+     * @return int Response access key
+     */
     public function post(string $uriPath, array $body, array $uriVariables = []): int;
 
     /**
