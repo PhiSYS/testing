@@ -6,8 +6,11 @@ namespace DosFarma\Testing\Behaviour\Bus;
 use Assert\Assert;
 use Assert\Assertion;
 use PcComponentes\Ddd\Util\Message\AggregateMessage;
+use PcComponentes\Ddd\Util\Message\Message;
+use PcComponentes\Ddd\Util\Message\Serialization\JsonApi\AggregateMessageJsonApiSerializable;
 use PcComponentes\Ddd\Util\Message\Serialization\JsonApi\AggregateMessageStream;
 use PcComponentes\Ddd\Util\Message\Serialization\JsonApi\AggregateMessageStreamDeserializer;
+use PcComponentes\Ddd\Util\Message\Serialization\JsonApi\SimpleMessageJsonApiSerializable;
 use PcComponentes\Ddd\Util\Message\Serialization\JsonApi\SimpleMessageStream;
 use PcComponentes\Ddd\Util\Message\Serialization\JsonApi\SimpleMessageStreamDeserializer;
 use PcComponentes\Ddd\Util\Message\SimpleMessage;
@@ -21,6 +24,8 @@ final class SymfonyMessengerBusManager implements BusManager
     private MessageBusInterface $handleCommandBus;
     private AggregateMessageStreamDeserializer $aggregateMessageStreamDeserializer;
     private SimpleMessageStreamDeserializer $simpleMessageStreamDeserializer;
+    private AggregateMessageJsonApiSerializable $aggregateMessageJsonApiSerializable;
+    private SimpleMessageJsonApiSerializable $simpleMessageJsonApiSerializable;
 
     public function __construct(
         MessageBusInterface $publishEventBus,
@@ -28,7 +33,9 @@ final class SymfonyMessengerBusManager implements BusManager
         MessageBusInterface $publishCommandBus,
         MessageBusInterface $handleCommandBus,
         AggregateMessageStreamDeserializer $aggregateMessageStreamDeserializer,
-        SimpleMessageStreamDeserializer $simpleMessageStreamDeserializer
+        SimpleMessageStreamDeserializer $simpleMessageStreamDeserializer,
+        AggregateMessageJsonApiSerializable $aggregateMessageJsonApiSerializable,
+        SimpleMessageJsonApiSerializable $simpleMessageJsonApiSerializable
     ) {
         $this->publishEventBus = $publishEventBus;
         $this->handleEventBus = $handleEventBus;
@@ -36,6 +43,8 @@ final class SymfonyMessengerBusManager implements BusManager
         $this->handleCommandBus = $handleCommandBus;
         $this->aggregateMessageStreamDeserializer = $aggregateMessageStreamDeserializer;
         $this->simpleMessageStreamDeserializer = $simpleMessageStreamDeserializer;
+        $this->aggregateMessageJsonApiSerializable = $aggregateMessageJsonApiSerializable;
+        $this->simpleMessageJsonApiSerializable = $simpleMessageJsonApiSerializable;
     }
 
     public function publishEvent(AggregateMessage $event): void
@@ -140,5 +149,14 @@ final class SymfonyMessengerBusManager implements BusManager
             ->keyExists('type', null, 'type')
             ->verifyNow()
         ;
+    }
+
+    public function serializeMessage(Message $message)
+    {
+        if ($message instanceof AggregateMessage) {
+            return $this->aggregateMessageJsonApiSerializable->serialize($message);
+        }
+
+        return $this->simpleMessageJsonApiSerializable->serialize($message);
     }
 }
