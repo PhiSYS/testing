@@ -17,20 +17,20 @@ interface ApiCallsManager
     /**
      * @return int Response access key
      */
-    public function get(string $uriPath, array $uriVariables = [], array $queryVariables = []): int;
+    public function get(string $uriPath, array $uriVariables = [], array $queryVariables = [], array $headers = []): int;
 
     /**
      * @return int Response access key
      */
-    public function post(string $uriPath, array $body, array $uriVariables = []): int;
+    public function post(string $uriPath, array $body, array $uriVariables = [], array $headers = []): int;
 
     /**
      * @return int Response access key
      */
-    public function put(string $uriPath, array $body, array $uriVariables = []): int;
+    public function put(string $uriPath, array $body, array $uriVariables = [], array $headers = []): int;
 
     /**
      * @return int Response access key
      */
-    public function delete(string $uriPath, array $uriVariables = []): int;
+    public function delete(string $uriPath, array $uriVariables = [], array $headers = []): int;
 }
