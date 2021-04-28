@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\Behat\Context;
+namespace PhiSYS\Testing\Behaviour\Behat\Context;
 
 use Assert\Assertion;
 use Assert\InvalidArgumentException;
 use Assert\LazyAssertionException;
-use DosFarma\Testing\Behaviour\ApiRest\ApiCallsManager;
+use PhiSYS\Testing\Behaviour\ApiRest\ApiCallsManager;
 use Psr\Http\Message\ResponseInterface;
 
 trait ApiFeatureSteps

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\Database;
+namespace PhiSYS\Testing\Behaviour\Database;
 
 interface DatabaseManager
 {

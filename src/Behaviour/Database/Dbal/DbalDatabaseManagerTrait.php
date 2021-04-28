@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\Database\Dbal;
+namespace PhiSYS\Testing\Behaviour\Database\Dbal;
 
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\FetchMode;

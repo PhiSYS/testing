@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\Database\Dbal;
+namespace PhiSYS\Testing\Behaviour\Database\Dbal;
 
 use Doctrine\DBAL\Driver\Connection;
-use DosFarma\Testing\Behaviour\Database\DatabaseManager;
+use PhiSYS\Testing\Behaviour\Database\DatabaseManager;
 
 final class PostgresDbalDatabaseManager implements DatabaseManager
 {

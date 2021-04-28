@@ -1,25 +1,22 @@
 {
-  "name": "dosfarma/testing",
+  "name": "phisys/testing",
   "description": "Tools for testing integration",
   "type": "library",
   "authors": [
     {
-      "name": "Sergio Hernández Martínez",
-      "email": "sergio.hernandez@dosfarma.com"
+      "name": "Sergio Hernández Martínez"
     },
     {
-      "name": "Jose R. Flores",
-      "email": "jr.flores@dosfarma.com"
+      "name": "Jose R. Flores"
     },
     {
-      "name": "David Strencsev",
-      "email": "david.strencsev@dosfarma.com"
+      "name": "David Strencsev"
     }
   ],
   "license": "MIT",
   "require": {
-    "php": "^7.4",
-    "guzzlehttp/guzzle": "^6.5",
+    "php": "^7.4|^8",
+    "guzzlehttp/guzzle": "^6.5|^7",
     "ext-json": "^7.4",
     "php-amqplib/php-amqplib": "^2.11",
     "doctrine/dbal": "^2.10",
@@ -30,7 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "DosFarma\\Testing\\": "src/"
+      "PhiSYS\\Testing\\": "src/"
     }
   }
 }

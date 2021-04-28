@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\AMQP;
+namespace PhiSYS\Testing\Behaviour\AMQP;
 
 interface AmqpManager
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\Bus;
+namespace PhiSYS\Testing\Behaviour\Bus;
 
 use Assert\Assert;
 use Assert\Assertion;

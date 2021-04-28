@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\ApiRest;
+namespace PhiSYS\Testing\Behaviour\ApiRest;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;

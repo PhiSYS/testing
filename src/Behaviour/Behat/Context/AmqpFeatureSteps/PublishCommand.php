@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace DosFarma\Testing\Behaviour\Behat\Context\AmqpFeatureSteps;
+namespace PhiSYS\Testing\Behaviour\Behat\Context\AmqpFeatureSteps;
 
 use Assert\Assertion;
-use DosFarma\Testing\Behaviour\AMQP\AmqpManager;
+use PhiSYS\Testing\Behaviour\AMQP\AmqpManager;
 
 trait PublishCommand
 {
