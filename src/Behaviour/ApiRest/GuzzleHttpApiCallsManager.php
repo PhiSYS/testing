@@ -6,8 +6,8 @@ namespace PhiSYS\Testing\Behaviour\ApiRest;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\UriTemplate\UriTemplate;
 use Psr\Http\Message\ResponseInterface;
-use function GuzzleHttp\uri_template;
 
 final class GuzzleHttpApiCallsManager implements ApiCallsManager
 {
@@ -126,7 +126,7 @@ final class GuzzleHttpApiCallsManager implements ApiCallsManager
     private function buildUri(string $uriPath, array $uriVariables): string
     {
         $uri = $this->host . $uriPath;
-        $uri = uri_template($uri, $uriVariables);
+        $uri = UriTemplate::expand($uri, $uriVariables);
 
         return $uri;
     }
