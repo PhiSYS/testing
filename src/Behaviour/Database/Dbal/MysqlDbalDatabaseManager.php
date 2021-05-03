@@ -6,7 +6,7 @@ namespace PhiSYS\Testing\Behaviour\Database\Dbal;
 use Doctrine\DBAL\Driver\Connection;
 use PhiSYS\Testing\Behaviour\Database\DatabaseManager;
 
-final class PostgresDbalDatabaseManager implements DatabaseManager
+final class MysqlDbalDatabaseManager implements DatabaseManager
 {
     use DbalDatabaseManagerTrait;
 
@@ -21,7 +21,7 @@ final class PostgresDbalDatabaseManager implements DatabaseManager
      */
     public function clear(string $storeName): void
     {
-        $preparedStatement = $this->prepareStatement("TRUNCATE TABLE $storeName RESTART IDENTITY");
+        $preparedStatement = $this->prepareStatement("TRUNCATE TABLE $storeName");
         $preparedStatement->executeStatement();
     }
 }
